@@ -103,7 +103,8 @@ const users = {
           title: 'All Users',
           type: 'item',
           url: '/users/list/all',
-          breadcrumbs: false
+          breadcrumbs: false,
+          target: true
         },
         {
           id: 'active-users',

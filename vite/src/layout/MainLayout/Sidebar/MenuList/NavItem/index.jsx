@@ -36,13 +36,13 @@ const NavItem = ({ item, level }) => {
   return (
     <Tooltip title={matchesSM ? '' : item.title} arrow>
       <ListItemButton
-        component={forwardRef((props, ref) => <Link ref={ref} {...props} to={item.url} />)}
+        component={forwardRef((props, ref) => <Link ref={ref} {...props} to={item.url} target={item.target ? '_blank' : '_self'} />)}
         onClick={handleMenuOpen}
         selected={isSelected}
         sx={{
-          
+          py: '2px',
           borderRadius: `${customization.borderRadius}px`,
-          mb: '.5rem',
+          mb: '0.2rem',
           alignItems: 'flex-start',
           backgroundColor: isSelected ? theme.palette.action.selected : 'transparent',
           '&:hover': {
@@ -52,7 +52,7 @@ const NavItem = ({ item, level }) => {
           /// decrease h
         }}
       >
-        <ListItemIcon sx={{ my: 'auto', minWidth: !item.icon ? 10 : 25 }}>
+        <ListItemIcon sx={{ my: 'auto', minWidth: !item.icon ? 15 : 25 }}>
           {item.icon ? (
             <item.icon strokeWidth={1.5} size="1rem" />
           ) : (

@@ -5,7 +5,12 @@ echo "Changed files:"
 git status --porcelain
 
 # Step 2: Ask for adding all files
-read -p "Do you want to add all changes? (y/n): " add_all
+read -p "Do you want to add all changes? (y/n, default is y): " add_all
+
+# Default to 'y' if the user presses Enter
+if [[ -z "$add_all" ]]; then
+    add_all="y"
+fi
 
 if [[ "$add_all" == "y" ]]; then
     # Add all files

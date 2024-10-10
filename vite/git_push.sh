@@ -29,7 +29,7 @@ commit_message=$(cat)
 git commit -m "$commit_message"
 
 # Step 5: Show colored log while pushing
-echo -e "\n\nPushing to remote..."
+echo -e "\n\nPushing to remote...\n\n"
 git log --oneline --color÷
 
 # Step 6: Push to remote

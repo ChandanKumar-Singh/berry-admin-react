@@ -28,7 +28,7 @@ const NavItem = ({ item, level }) => {
   const handleMenuOpen = () => {
     /// if small device, close the menu drawer otherwise open the menu
     if (matchesSM) {
-      dispatch({ type: SET_MENU, opened: false });
+      dispatch({ type: SET_MENU, opened: true });
     }
 
   };
@@ -40,14 +40,16 @@ const NavItem = ({ item, level }) => {
         onClick={handleMenuOpen}
         selected={isSelected}
         sx={{
+          
           borderRadius: `${customization.borderRadius}px`,
-          mb: 0.2,
+          mb: '.5rem',
           alignItems: 'flex-start',
           backgroundColor: isSelected ? theme.palette.action.selected : 'transparent',
           '&:hover': {
             backgroundColor: theme.palette.action.hover,
           },
           pl: `${level * 24}px`,
+          /// decrease h
         }}
       >
         <ListItemIcon sx={{ my: 'auto', minWidth: !item.icon ? 10 : 25 }}>
@@ -59,7 +61,12 @@ const NavItem = ({ item, level }) => {
         </ListItemIcon>
         <ListItemText
           primary={
-            <Typography variant={isSelected ? 'body1' : 'caption'} color="inherit" sx={{ my: 'auto' }}>
+            <Typography variant={isSelected ? 'caption' : 'caption'} color="inherit" sx={{
+              my: 'auto',
+              whiteSpace: 'nowrap',   // Prevents text from wrapping
+              overflow: 'hidden',     // Ensures text is hidden if it overflows
+              textOverflow: 'ellipsis', // Adds "..." if the text is too long
+            }}>
               {item.title}
             </Typography>
           }
@@ -77,7 +84,7 @@ const NavItem = ({ item, level }) => {
             size="small"
             color={item.badge.color ?? 'primary'}
             justifyContent="flex-end"
-            sx={{ ml: 1, height: 20, fontSize: '0.75rem' }}
+            sx={{ ml: 1, height: 15, fontSize: '0.5rem' }}
           />
         )}
       </ListItemButton>

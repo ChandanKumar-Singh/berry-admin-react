@@ -29,17 +29,17 @@ commit_message=$(cat)
 git commit -m "$commit_message"
 
 # Step 5: Show colored log while pushing
-echo -e "\e[34mPushing to remote...\e[0m"
-git log --oneline --color
+echo -e "\n\nPushing to remote..."
+git log --oneline --color÷
 
 # Step 6: Push to remote
 git push
 
 # Step 7: Show success or error message
 if [ $? -eq 0 ]; then
-    echo -e "\e[32mPush successful!\e[0m"
+    echo -e "\n\nPush successful!"
 else
-    echo -e "\e[31mPush failed. Please check the error above.\e[0m"
+    echo -e "\n\nPush failed. Please check the error above.\n\n"
 fi
 
 # Exit with status code

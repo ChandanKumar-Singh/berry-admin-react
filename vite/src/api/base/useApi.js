@@ -1,41 +1,27 @@
 import { useState, useCallback } from 'react';
-import apiClient from './apiClient';
+import makeApiRequest from './makeApiRequest';
 
-const useApi = (url, method = 'get', body = null, { token = true, headers = null } = {}) => {
-  const [data, setData] = useState(null);
+const useApi = (initialUrl, method = 'get', initialData = null, options = {}) => {
+  const [data, setData] = useState(initialData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const config = {};
+  const fetchData = useCallback(
+    async (url = initialUrl, body = null) => {
+      setLoading(true);
+      setError(null);
 
-      // Add authorization token conditionally
-      if (token) {
-        const authToken = localStorage.getItem('token');
-        if (authToken) {
-          config.headers = {
-            Authorization: `Bearer ${authToken}`,
-          };
-        }
-      }
-      if (headers) {
-        config.headers = {
-          ...config.headers,
-          ...headers,
-        };
+      const response = await makeApiRequest(url, method, body, options);
+      if (response.status) {
+        setData(response.data);
+      } else {
+        setError(response.message);
       }
 
-      const response = await apiClient[method](url, body, config);
-      setData(response.data);
-    } catch (err) {
-      setError(err.message);
-      alert(`Error: ${err.message}`); // Show alert on error
-    } finally {
       setLoading(false);
-    }
-  }, [url, method, body, token, headers]);
+    },
+    [initialUrl, method, options]
+  );
 
   return { data, loading, error, fetchData };
 };

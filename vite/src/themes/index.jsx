@@ -38,6 +38,8 @@ export const theme = (customization) => {
     paper: color.paper, // Background color for paper components
     backgroundDefault: color.paper, // Default background color
     background: color.primaryLight, // Main background color
+    /// TODO : Change the background color
+    // background: '#197ADBFF', // Main background color
     darkTextPrimary: color.grey700, // Primary dark text color
     darkTextSecondary: color.grey500, // Secondary dark text color
     textDark: color.grey900, // Dark text color for general use

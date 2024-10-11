@@ -69,34 +69,37 @@ const MainLayout = () => {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       {/* header */}
-      <AppBar
-        enableColorOnDark
-        position="fixed"
-        color="inherit"
-        elevation={0}
-        sx={{
-          height: appBarHeight,
-          bgcolor: theme.palette.background.default,
-          transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
-        }}
-      >
-        <Toolbar>
-          <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
-        </Toolbar>
-      </AppBar>
+      {appbar()}
 
       {/* drawer */}
       <Sidebar drawerOpen={!matchDownMd ? leftDrawerOpened : !leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
 
       {/* main content */}
       <Main theme={theme} open={leftDrawerOpened}>
-        {/* breadcrumb */}
         <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
         <Outlet />
       </Main>
       <Customization />
     </Box>
   );
+
+  function appbar() {
+    return <AppBar
+      enableColorOnDark
+      position="fixed"
+      color="inherit"
+      elevation={0}
+      sx={{
+        height: appBarHeight,
+        bgcolor: theme.palette.background.default,
+        transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
+      }}
+    >
+      <Toolbar>
+        <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+      </Toolbar>
+    </AppBar>;
+  }
 };
 
 export default MainLayout;

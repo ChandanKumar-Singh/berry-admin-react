@@ -1,49 +1,90 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import apiService from 'api/base/ApiService';
 
 const UserServiceContext = createContext();
 
 export const UserServiceProvider = ({ children }) => {
-    const [users, setUsers] = useState({ // Initialize users as an object
-        data: [], // To hold the array of users
-        loading: false, // To track loading state
-        error: null, // To hold error messages
-        page: 1, // Current page
-        totalResults: 0, // Total number of results (for pagination)
+    const [users, setUsers] = useState({
+        loading: false,
+        error: null,
+        page: 0,
+        total: 0,
+        data: []
     });
 
-    const fetchUsers = async (pageNumber) => {
-        setUsers(prevState => ({ ...prevState, loading: true })); // Update loading state
-        try {
-            const response = await apiClient.get(`https://randomuser.me/api/?page=${pageNumber}`);
+    const [posts, setPosts] = useState({
+        data: [],
+        loading: false,
+        error: null
+    });
 
-            setUsers({
-                data: response.data.results,
+    // Fetch Users with pagination support
+    const getUsers = async (pageNumber) => {
+        try {
+            const url = `https://dummyjson.com/users?limit=30&skip=${(pageNumber - 1) * 30}`;
+            setUsers((prevUsers) => ({ ...prevUsers, loading: true }));
+
+            const response = await apiService.get(url);
+            console.log(`pre-getUsers call from provider page - ${pageNumber} `);
+
+            if (response.status) {
+                setUsers({
+                    data: pageNumber > 1 ? [...users.data, ...(response.data.users ?? [])] : response.data.users ?? [],
+                    loading: false,
+                    error: null,
+                    page: pageNumber,
+                    total: response.data.total || 0,
+                });
+            } else {
+                setUsers((prevUsers) => ({
+                    ...prevUsers,
+                    loading: false,
+                    error: response.message
+                }));
+            }
+        } catch (error) {
+            setUsers((prevUsers) => ({
+                ...prevUsers,
                 loading: false,
-                error: null,
-                page: pageNumber,
-                totalResults: response.data.info.results,
-            });
-        } catch (err) {
-            setUsers(prevState => ({
-                ...prevState,
-                loading: false,
-                error: err.message, // Store error message
+                error: error.message
             }));
-            alert(err.message); // Alert on error
+            console.error(`Error fetching users: ${error.message}`);
         }
     };
 
+    // Fetch Posts
+    const getAllPosts = async () => {
+        setPosts({ ...posts, loading: true });
+        const response = await apiService.get(`https://jsonplaceholder.typicode.com/posts`);
+
+        if (response.status) {
+            setPosts({
+                data: response.data,
+                loading: false,
+                error: null
+            });
+            return true;
+        } else {
+            setPosts({
+                ...posts,
+                loading: false,
+                error: response.message
+            });
+        }
+        return false;
+    };
+
     useEffect(() => {
-        fetchUsers(users.page); // Fetch users on initial render
-    }, [users.page]);
+        getUsers(users.page + 1);
+    }, []);
 
     return (
-        <UserServiceContext.Provider value={{ users, fetchUsers }}>
+        <UserServiceContext.Provider value={{ users, posts, getUsers, getAllPosts }}>
             {children}
         </UserServiceContext.Provider>
     );
 };
 
-export const useUserService = () => {
+export const UserService = () => {
     return useContext(UserServiceContext);
 };

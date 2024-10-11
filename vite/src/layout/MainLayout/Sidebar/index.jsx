@@ -76,12 +76,18 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
             background: theme.palette.background.default,
             color: theme.palette.text.primary,
             borderRight: 'none',
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
+            borderTopRightRadius: `${theme.shape.borderRadius}`,
+            borderBottomRightRadius: `${theme.shape.borderRadius}`,
+
             [theme.breakpoints.up('md')]: {
               top: '88px'
             }
           }
         }}
         ModalProps={{ keepMounted: true }}
+
         color="inherit"
       >
         {drawer}

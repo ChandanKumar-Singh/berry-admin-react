@@ -104,7 +104,23 @@ const users = {
           type: 'item',
           url: '/users/list/all',
           breadcrumbs: false,
-          target: true
+          target: true,
+          children: [
+            {
+              id: 'user-1',
+              title: 'User 1',
+              type: 'item',
+              url: '/users/list/all/user-1',
+              breadcrumbs: false
+            },
+            {
+              id: 'user-2',
+              title: 'User 2',
+              type: 'item',
+              url: '/users/list/all/user-2',
+              breadcrumbs: false
+            }
+          ]
         },
         {
           id: 'active-users',

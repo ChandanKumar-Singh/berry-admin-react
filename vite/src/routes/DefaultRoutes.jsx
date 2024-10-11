@@ -3,7 +3,7 @@ import { lazy } from 'react';
 import Loadable from 'ui-component/Loadable';
 
 // Loadable component for lazy loading
-const NotFoundPage = Loadable(lazy(() => import('views/pages/default/NotFound')));
+const NotFoundPage = Loadable(lazy(() => import('views/sample-page/NotFound')));
 
 // Wildcard route to catch all unmatched paths
 const DefaultRoutes = [

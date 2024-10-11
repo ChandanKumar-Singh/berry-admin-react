@@ -83,7 +83,7 @@ const NavItem = ({ item, level }) => {
             label={item.badge.value}
             size="small"
             color={item.badge.color ?? 'primary'}
-            justifyContent="flex-end"
+            // justifyContent="flex-end"
             sx={{ ml: 1, height: 15, fontSize: '0.5rem' }}
           />
         )}

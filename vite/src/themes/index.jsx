@@ -13,6 +13,7 @@ import {
   secondaryMain,
   // Import other colors as needed
 } from './colors';
+import { spacing } from '@mui/system';
 
 /**
  * Represents the theme style and structure as per Material-UI
@@ -25,13 +26,12 @@ export const theme = (customization) => {
 
   // Define theme options
   const themeOption = {
-    // IMPORTANT: Manipulate theme colors from here
     colors: {
       ...color,
       primaryMain: primaryMain, // Main primary color
       secondaryMain: secondaryMain, // Main secondary color
       primaryLight: primaryLight, // Light variant of the primary color
-      // Additional colors can be added here
+      // Additional colors can be added here 
     },
     // Define other theme properties
     heading: color.grey900, // Color for headings
@@ -46,6 +46,7 @@ export const theme = (customization) => {
     menuSelected: color.secondaryDark, // Selected menu item color
     menuSelectedBack: color.secondaryLight, // Background color for selected menu items
     divider: color.grey200, // Divider color
+    spacing: spacing, // Spacing options
     customization, // Customization options passed in
   };
 

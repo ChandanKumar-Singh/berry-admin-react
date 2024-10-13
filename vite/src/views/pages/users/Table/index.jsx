@@ -22,9 +22,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { useState } from 'react';
-import { Button, Card, CardContent, CardMedia, Grid, Popover, Tab } from '@mui/material';
+import { Button, Card, CardContent, CardMedia, duration, Grid, Popover, Skeleton, Tab } from '@mui/material';
 import { gridSpacing } from 'store/constant';
 import { margin } from '@mui/system';
+import { useTheme } from '@emotion/react';
 
 // Define columns (head cells) for the table
 const headCells = [
@@ -144,50 +145,56 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired
 };
 
-// EnhancedTableToolbar component
+/// EnhancedTableToolbar component
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, filter } = props;
 
   return (
-    <Toolbar
-      sx={[
-        {
-          pl: { sm: 2 },
-          pr: { xs: 1, sm: 1 }
-        },
-        numSelected > 0 && {
-          bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity)
-        }
-      ]}
-    >
-      {numSelected > 0 ? (
-        <Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="subtitle1" component="div">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography sx={{ flex: '1 1 100%' }} variant="h3" id="tableTitle" component="div">
-          Users List
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
+    <>
+      <Toolbar
+        sx={[
+          {
+            pl: { sm: 2 },
+            pr: { xs: 1, sm: 1 }
+          },
+          numSelected > 0 && {
+            bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity)
+          }
+        ]}
+      >
+        {numSelected > 0 ? (
+          <Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="subtitle1" component="div">
+            {numSelected} selected
+          </Typography>
+        ) : (
+          <Typography sx={{ flex: '1 1 100%' }} variant="h3" id="tableTitle" component="div">
+            Users List
+          </Typography>
+        )}
+        {numSelected > 0 ? (
+          <Tooltip title="Delete">
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Filter list">
+            <IconButton>
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Toolbar>
+
+      {/* Filters section */}
+      <Box sx={{ px: 2, py: 1 }}>{filter}</Box>
+    </>
   );
 }
 
 EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired
+  numSelected: PropTypes.number.isRequired,
+  filter: PropTypes.element
 };
 
 const UserTableCell = ({ user, labelId }) => {
@@ -284,14 +291,19 @@ const UserTableCell = ({ user, labelId }) => {
   );
 };
 
-// Main EnhancedTable component
-export default function EnhancedTable({ users = [], onLoadMore }) {
+/// Main EnhancedTable component
+export default function EnhancedTable({ users = [], onLoadMore, filter, loading }) {
+  const theme = useTheme();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('firstName');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  React.useEffect(() => {
+    if (page > 0 && (users.length <= rowsPerPage * page)) setPage(0);
+  }, [users]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -345,15 +357,16 @@ export default function EnhancedTable({ users = [], onLoadMore }) {
     [order, orderBy, page, rowsPerPage, users]
   );
 
-  // Calculate total pages
+  /// Calculate total pages
   const totalPages = Math.ceil(users.length / rowsPerPage);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} filter={filter} />
         <TableContainer
           sx={{
-            maxHeight: '80vh',
+            maxHeight: '70vh',
             margin: '10px'
           }}
         >
@@ -367,45 +380,47 @@ export default function EnhancedTable({ users = [], onLoadMore }) {
               rowCount={users.length}
             />
             <TableBody>
-              {visibleRows.map((user, index) => {
-                const isItemSelected = selected.includes(user.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
+              {loading
+                ? renderSkeletonRows()
+                : visibleRows.map((user, index) => {
+                  const isItemSelected = selected.includes(user.id);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, user.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={user.id}
-                    selected={isItemSelected}
-                  >
-                    {/* checkbox */}
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell align="left">{index + 1 + page * rowsPerPage}</TableCell>
-                    {/* first name */}
-                    <UserTableCell user={user} labelId={labelId}>
-                      {/* <TableCell component="th" id={labelId} scope="row" padding="none"> */}
-                      {user.firstName}
-                      {/* </TableCell> */}
-                    </UserTableCell>
-                    <TableCell align="left">{user.lastName}</TableCell>
-                    <TableCell align="left">{user.email}</TableCell>
-                    <TableCell align="left">{user.phone}</TableCell>
-                    <TableCell align="right">{user.age}</TableCell>
-                    <TableCell align="left">{user.company.name}</TableCell>
-                  </TableRow>
-                );
-              })}
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, user.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={user.id}
+                      selected={isItemSelected}
+                    >
+                      {/* checkbox */}
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            'aria-labelledby': labelId
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell align="left">{index + 1 + page * rowsPerPage}</TableCell>
+                      {/* first name */}
+                      <UserTableCell user={user} labelId={labelId}>
+                        {/* <TableCell component="th" id={labelId} scope="row" padding="none"> */}
+                        {user.firstName}
+                        {/* </TableCell> */}
+                      </UserTableCell>
+                      <TableCell align="left">{user.lastName}</TableCell>
+                      <TableCell align="left">{user.email}</TableCell>
+                      <TableCell align="left">{user.phone}</TableCell>
+                      <TableCell align="right">{user.age}</TableCell>
+                      <TableCell align="left">{user.company.name}</TableCell>
+                    </TableRow>
+                  );
+                })}
               {emptyRows > 0 && (
                 <TableRow
                   style={{
@@ -439,9 +454,45 @@ export default function EnhancedTable({ users = [], onLoadMore }) {
       {/* <FormControlLabel control={<Switch checked={dense} onChange={handleChangeDense} />} label="Dense padding" /> */}
     </Box>
   );
+
+  function renderSkeletonRows() {
+    const sx = {
+      bgcolor: theme.palette.divider,
+      color: 'primary.main',
+      duration: 0.5
+    };
+    return [...Array(rowsPerPage)].map((_, index) => (
+      <TableRow key={index}>
+        <TableCell padding="checkbox">
+          <Skeleton variant="text" width={40} sx={sx} />
+        </TableCell>
+        {/* For each column, render a skeleton */}
+        <TableCell align="left">
+          <Skeleton variant="text" width={40} sx={sx} />
+        </TableCell>
+        <TableCell align="left">
+          <Skeleton variant="text" width={100} sx={sx} />
+        </TableCell>
+        <TableCell align="left">
+          <Skeleton variant="text" width={100} sx={sx} />
+        </TableCell>
+        <TableCell align="left">
+          <Skeleton variant="text" width={120} sx={sx} />
+        </TableCell>
+        <TableCell align="right">
+          <Skeleton variant="text" width={30} sx={sx} />
+        </TableCell>
+        <TableCell align="left">
+          <Skeleton variant="text" width={100} sx={sx} />
+        </TableCell>
+      </TableRow>
+    ));
+  }
 }
 
 EnhancedTable.propTypes = {
   users: PropTypes.array.isRequired,
-  onLoadMore: PropTypes.func.isRequired
+  onLoadMore: PropTypes.func.isRequired,
+  filter: PropTypes.element,
+  loading: PropTypes.bool
 };

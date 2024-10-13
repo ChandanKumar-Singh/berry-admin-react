@@ -8,7 +8,8 @@ import {
     CircularProgress,
     IconButton,
     Grid,
-    Typography
+    Typography,
+    InputAdornment
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { UserService } from 'services';
@@ -18,6 +19,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EnhancedTable from './Table';
+import { IconClearAll, IconSearch } from '@tabler/icons-react';
+import { ClearRounded } from '@mui/icons-material';
 
 const UsersList = () => {
     const { users, getUsers } = UserService();
@@ -27,20 +30,18 @@ const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 10;
 
-    console.log(users);
-
     useEffect(() => {
-        setFilteredUsers(users.data);
         if (users.data.length === 0) fetchUsers();
     }, []);
+    useEffect(() => {
+        setFilteredUsers(users.data);
+    }, [users]);
 
-    const fetchUsers = () => {
-        getUsers(users.page + 1).then((r) => {
+    const fetchUsers = (page) => {
+        getUsers(page ?? (users.page + 1)).then((r) => {
             console.log(`userlist call from fetchUsers!`);
             if (r) {
-                console.log(users);
                 setFilteredUsers(users.data);
-
             }
         });
     };
@@ -65,10 +66,12 @@ const UsersList = () => {
         }
         const lowerCaseTerm = term.toLowerCase();
         const filtered = users.data.filter((user) => {
-            const matchesSearch = user.attributes.name.toLowerCase().includes(lowerCaseTerm);
-            const matchesGender = gender ? user.attributes.gender === gender : true;
+            const matchesSearch = `${user.firstName} ${user.lastName}`.toLowerCase().includes(lowerCaseTerm);
+            const matchesGender = gender ? (gender === '' ? true : gender === user.gender) : true;
+            console.log(`matchesSearch: ${matchesSearch} matchesGender: ${matchesGender} `);
             return matchesSearch && matchesGender;
         });
+        console.log(`filtered: ${filtered.length}`);
         setFilteredUsers(filtered);
     };
 
@@ -79,8 +82,8 @@ const UsersList = () => {
         setFilteredUsers(users.data);
     };
 
-    const handleFetchUsers = () => {
-        fetchUsers();
+    const handleRefresh = () => {
+        fetchUsers(1);
     };
 
     const handleNextPage = () => {
@@ -96,29 +99,53 @@ const UsersList = () => {
     };
     const loadMore = () => {
         if (users.total > users.data.length) {
-            fetchUsers()
+            fetchUsers();
         }
     };
-
 
     return (
         <MainCard content={false}>
             {/* {JSON.stringify(users.loading)} */}
-            <EnhancedTable users={users.data || []} onLoadMore={loadMore} />
+            <EnhancedTable users={filteredUsers || []} onLoadMore={loadMore} filter={Actions()} loading={users.loading} />
         </MainCard>
     );
 
-
-    function actions() {
+    function Actions() {
         return (
-            <Grid container spacing={2} alignItems="center">
+            <Grid container spacing={2} alignItems="center" justifyContent="space-between">
                 {/* Search Bar */}
-                <Grid item xs={12} sm={6} md={4}>
-                    <TextField label="Search Users" variant="outlined" value={searchTerm} onChange={handleSearch} fullWidth size="small" />
+                <Grid item xs={6} sm={4} md={4}>
+                    <TextField
+                        label="Search Users"
+                        placeholder="Search by name"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    {searchTerm && (
+                                        <IconButton
+                                            onClick={resetFilters}
+                                            edge="end"
+                                        >
+                                            <ClearRounded size={15} />
+                                        </IconButton>
+                                    )}
+                                    <IconButton onClick={() => handleSearch({ target: { value: searchTerm } })}>
+                                        <IconSearch size={15} />
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
                 </Grid>
 
+
                 {/* Gender Filter */}
-                <Grid item xs={12} sm={4} md={3}>
+                <Grid item xs={6} sm={4} md={4}>
                     <FormControl variant="outlined" fullWidth size="small">
                         <InputLabel>Filter by Gender</InputLabel>
                         <Select value={selectedGender} onChange={handleGenderChange} label="Filter by Gender">
@@ -131,25 +158,29 @@ const UsersList = () => {
                     </FormControl>
                 </Grid>
 
-                {/* Reset Button */}
-                <Grid item xs={12} sm={2} md={2}>
-                    <IconButton color="secondary" onClick={resetFilters} size="large" title="Reset Filters">
-                        <ClearIcon />
-                    </IconButton>
-                </Grid>
+                {/* Reset and Reload Buttons (stacked in smaller screens) */}
+                <Grid item container xs={12} sm={4} md={4} spacing={2} justifyContent="flex-end">
+                    {/* Reset Button */}
+                    <Grid item xs={6} sm={6} md={6}>
+                        <Button onClick={resetFilters} variant="outlined" color="secondary" startIcon={<ClearIcon />} fullWidth size="small">
+                            Reset
+                        </Button>
+                    </Grid>
 
-                {/* Reload Button */}
-                <Grid item xs={12} sm={2} md={2}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleFetchUsers}
-                        startIcon={<RefreshIcon />}
-                        disabled={users.loading}
-                        fullWidth
-                    >
-                        Reload
-                    </Button>
+                    {/* Reload Button */}
+                    <Grid item xs={6} sm={6} md={6}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleRefresh}
+                            startIcon={<RefreshIcon />}
+                            disabled={users.loading}
+                            fullWidth
+                            size="small"
+                        >
+                            Reload
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
         );

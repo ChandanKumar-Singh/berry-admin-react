@@ -1,13 +1,3 @@
-// paper & background
-$paper: #ffffff;
-
-// primary
-$primaryLight: #eef2f6;
-$primaryMain: #014212;
-$primaryDark: #04613c;
-$primary200: #aec8be;
-$primary800: #569076;
-
 
 /// IMPORTANT: change the following to match the secondary color
 // secondary
@@ -17,34 +7,57 @@ $primary800: #569076;
 // $secondary200: #b39ddb;
 // $secondary800: #4527a0;
 
+
+
+
+/// IMPORTANT: change the following to match the secondary color
+
+// secondary dark
+// $darkSecondaryLight: #d1c4e9;
+// $darkSecondaryMain: #7c4dff;
+// $darkSecondaryDark: #651fff;
+// $darkSecondary200: #b39ddb;
+// $darkSecondary800: #6200ea;
+
+
+
+// ==============================|| LIGHT THEME VARIANTS ||============================== //
+
+// paper & background
+$paper: #ffffff; // White background for paper elements
+$background: #fafafa; // Light background for page
+
+// primary colors
+$primaryLight: #eef2f6;
+$primary200: #aec8be;
+$primaryMain: #014212;
+$primaryDark: #04613c;
+$primary800: #569076;
+
+// secondary colors
 $secondaryLight: #e0f5ff;
-$secondaryMain: #f06d32;
-$secondaryDark: #f06d32;
 $secondary200: #f7dcbe;
+$secondaryMain: #f06d32;
+$secondaryDark: #e6b57c;
 $secondary800: #e6b57c;
 
-// success Colors
+// success colors
 $successLight: #b9f6ca;
 $success200: #69f0ae;
 $successMain: #00e676;
 $successDark: #00c853;
 
-// error
+// error colors
 $errorLight: #ef9a9a;
 $errorMain: #f44336;
 $errorDark: #c62828;
 
-// orange
-$orangeLight: #fbe9e7;
-$orangeMain: #ffab91;
-$orangeDark: #d84315;
-
-// warning
+// warning colors
 $warningLight: #fff8e1;
 $warningMain: #ffe57f;
 $warningDark: #ffc107;
 
-// grey
+// grey shades
 $grey50: #f8fafc;
 $grey100: #eef2f6;
 $grey200: #e3e8ef;
@@ -56,86 +69,70 @@ $grey900: #121926;
 
 // ==============================|| DARK THEME VARIANTS ||============================== //
 
-// paper & background
-$darkBackground: #1a223f; // level 3
-$darkPaper: #111936; // level 4
+// paper & background for dark mode
+$darkBackground: #1a223f;
+$darkPaper: #111936;
 
-// dark 800 & 900
-$darkLevel1: #29314f; // level 1
-$darkLevel2: #212946; // level 2
+// dark levels
+$darkLevel1: #29314f;
+$darkLevel2: #212946;
 
-// primary dark
+// primary colors for dark theme
 $darkPrimaryLight: #eef2f6;
+$darkPrimary200: #90caf9;
 $darkPrimaryMain: #2196f3;
 $darkPrimaryDark: #1e88e5;
-$darkPrimary200: #90caf9;
 $darkPrimary800: #1565c0;
 
-/// IMPORTANT: change the following to match the secondary color
-
-// secondary dark
-// $darkSecondaryLight: #d1c4e9;
-// $darkSecondaryMain: #7c4dff;
-// $darkSecondaryDark: #651fff;
-// $darkSecondary200: #b39ddb;
-// $darkSecondary800: #6200ea;
-
-// export const primaryMain = "#F06D32";
-// export const secondaryMain = "#F7DCBE";
-// export const primaryLight = "#E0F5FF";
+// secondary colors for dark theme
 $darkSecondaryLight: #e0f5ff;
-$darkSecondaryMain: #f06d32;
-$darkSecondaryDark: #f06d32;
 $darkSecondary200: #efa958;
+$darkSecondaryMain: #f06d32;
+$darkSecondaryDark: #b69065;
 $darkSecondary800: #b69065;
 
-// text variants
+// text variants for dark mode
 $darkTextTitle: #d7dcec;
 $darkTextPrimary: #bdc8f0;
 $darkTextSecondary: #8492c4;
 
-// ==============================|| JAVASCRIPT ||============================== //
-
+// ==============================|| JAVASCRIPT EXPORTS ||============================== //
 :export {
   // paper & background
   paper: $paper;
+  background: $background;
 
-  // primary
+  // primary colors
   primaryLight: $primaryLight;
   primary200: $primary200;
   primaryMain: $primaryMain;
   primaryDark: $primaryDark;
   primary800: $primary800;
 
-  // secondary
+  // secondary colors
   secondaryLight: $secondaryLight;
   secondary200: $secondary200;
   secondaryMain: $secondaryMain;
   secondaryDark: $secondaryDark;
   secondary800: $secondary800;
 
-  // success
+  // success colors
   successLight: $successLight;
   success200: $success200;
   successMain: $successMain;
   successDark: $successDark;
 
-  // error
+  // error colors
   errorLight: $errorLight;
   errorMain: $errorMain;
   errorDark: $errorDark;
 
-  // orange
-  orangeLight: $orangeLight;
-  orangeMain: $orangeMain;
-  orangeDark: $orangeDark;
-
-  // warning
+  // warning colors
   warningLight: $warningLight;
   warningMain: $warningMain;
   warningDark: $warningDark;
 
-  // grey
+  // grey shades
   grey50: $grey50;
   grey100: $grey100;
   grey200: $grey200;
@@ -145,32 +142,22 @@ $darkTextSecondary: #8492c4;
   grey700: $grey700;
   grey900: $grey900;
 
-  // ==============================|| DARK THEME VARIANTS ||============================== //
-
-  // paper & background
+  // dark mode
   darkPaper: $darkPaper;
   darkBackground: $darkBackground;
-
-  // dark 800 & 900
   darkLevel1: $darkLevel1;
   darkLevel2: $darkLevel2;
-
-  // text variants
   darkTextTitle: $darkTextTitle;
   darkTextPrimary: $darkTextPrimary;
   darkTextSecondary: $darkTextSecondary;
-
-  // primary dark
   darkPrimaryLight: $darkPrimaryLight;
+  darkPrimary200: $darkPrimary200;
   darkPrimaryMain: $darkPrimaryMain;
   darkPrimaryDark: $darkPrimaryDark;
-  darkPrimary200: $darkPrimary200;
   darkPrimary800: $darkPrimary800;
-
-  // secondary dark
   darkSecondaryLight: $darkSecondaryLight;
+  darkSecondary200: $darkSecondary200;
   darkSecondaryMain: $darkSecondaryMain;
   darkSecondaryDark: $darkSecondaryDark;
-  darkSecondary200: $darkSecondary200;
   darkSecondary800: $darkSecondary800;
 }

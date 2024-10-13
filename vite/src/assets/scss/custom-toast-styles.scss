@@ -1,0 +1,87 @@
+
+:root {
+    --toastify-color-light: #f9f9f9; /* Light theme background */
+    --toastify-color-dark: #333; /* Dark theme background */
+    --toastify-color-info: #3498db; /* Info color */
+    --toastify-color-success: #07bc0c; /* Success color */
+    --toastify-color-warning: #f1c40f; /* Warning color */
+    --toastify-color-error: #e74c3c; /* Error color */
+  
+    --toastify-icon-color-info: var(--toastify-color-info);
+    --toastify-icon-color-success: var(--toastify-color-success);
+    --toastify-icon-color-warning: var(--toastify-color-warning);
+    --toastify-icon-color-error: var(--toastify-color-error);
+  
+    --toastify-toast-width: 320px; /* Toast width */
+    --toastify-toast-background: #fff; /* Toast background color */
+    --toastify-toast-min-height: 64px; /* Minimum height */
+    --toastify-toast-max-height: 800px; /* Max height */
+    --toastify-font-family: 'Roboto', sans-serif; /* Global font family */
+    --toastify-z-index: 9999; /* Z-index for toast visibility */
+  
+    --toastify-text-color-light: #757575; /* Light theme text color */
+    --toastify-text-color-dark: #fff; /* Dark theme text color */
+    
+    /* Progress Bar Colors */
+    --toastify-color-progress-light: linear-gradient(
+      to right,
+      #4cd964,
+      #5ac8fa,
+      #007aff,
+      #34aadc,
+      #5856d6,
+      #ff2d55
+    );
+    --toastify-color-progress-dark: #bb86fc;
+  }
+  
+  /** Container positioning **/
+  .Toastify__toast-container {
+    padding: 0; /* Remove padding to make toasts more dense */
+    z-index: 10000; /* Increase z-index for higher visibility */
+  }
+  
+  .Toastify__toast-container--top-left {
+    top: 1rem;
+    left: 1rem;
+  }
+  
+  .Toastify__toast-container--bottom-right {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  /** Style for individual toasts **/
+  .Toastify__toast {
+    border-radius: 8px; /* Rounded corners for the toast */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 12px; /* Dense padding */
+    margin-bottom: 12px; /* Space between toasts */
+  }
+  
+  .Toastify__toast--success {
+    background-color: var(--toastify-color-success); /* Success theme */
+    color: var(--toastify-text-color-success);
+  }
+  
+  .Toastify__toast--error {
+    background-color: var(--toastify-color-error); /* Error theme */
+    color: var(--toastify-text-color-error);
+  }
+  
+  /** Custom close button style **/
+  .Toastify__close-button {
+    color: #fff; /* White close button for better contrast */
+  }
+  
+  .Toastify__close-button:hover {
+    opacity: 0.8; /* Add hover effect */
+  }
+  
+  /** Customize the progress bar **/
+  .Toastify__progress-bar {
+    height: 4px; /* Make the progress bar smaller */
+    background: var(--toastify-color-progress-light); /* Progress color */
+  }
+  
+  

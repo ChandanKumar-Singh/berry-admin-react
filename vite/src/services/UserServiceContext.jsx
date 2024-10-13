@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import apiService from 'api/base/ApiService';
+import { ToastContent, toasts } from 'utils/ToastUtils';
+import { Box } from '@mui/system';
+import { toast } from 'react-toastify';
 
 const UserServiceContext = createContext();
 
@@ -21,8 +24,10 @@ export const UserServiceProvider = ({ children }) => {
     // Fetch Users with pagination support
     const getUsers = async (pageNumber) => {
         try {
+            if (users.data.length == 0) pageNumber = 1;
             const url = `https://dummyjson.com/users?limit=30&skip=${(pageNumber - 1) * 30}`;
-            setUsers((prevUsers) => ({ ...prevUsers, loading: true }));
+            setUsers((prevUsers) => ({ ...prevUsers, loading: pageNumber === 1 }));
+            toasts.s(`Improved styling for the toast messages and icons.\n${pageNumber}`, { autoClose: 3000, onRetry: () => getUsers(pageNumber) });
 
             const response = await apiService.get(url);
             console.log(`pre-getUsers call from provider page - ${pageNumber} `);

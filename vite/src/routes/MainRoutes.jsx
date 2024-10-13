@@ -3,6 +3,8 @@ import { lazy } from 'react';
 // Project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+import { SampleParent } from '../layout/MinimalLayout/SampleParent';
+import GeneralSettingsPage from 'views/pages/settings/genera-lsettings';
 
 // Dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
@@ -39,21 +41,21 @@ const MainRoutes = {
     ]),
 
     // User Management Routes
-    createRoute('users', 'User Management', <ComingSoonPage />, [
-      createRoute('list', 'User List', <ComingSoonPage />, [
+    createRoute('users', 'User Management', <SampleParent title='User Management' />, [
+      createRoute('list', 'User List', <SampleParent title='User List' />, [
         createRoute('all', 'All Users', <ComingSoonPage />),
         createRoute('active', 'Active Users', <ComingSoonPage />),
         createRoute('blocked', 'Blocked Users', <ComingSoonPage />)
       ]),
       createRoute('roles', 'User Roles', <ComingSoonPage />),
       createRoute('permissions', 'User Permissions', <ComingSoonPage />),
-      // createRoute('profile', 'User Profile', <UsersListPage />),
+      createRoute('profile', 'User Profile', <UsersListPage />),
       createRoute('activity-log', 'User Activity Log', <ComingSoonPage />)
     ]),
 
     // Settings Routes
-    createRoute('settings', 'Settings', <ComingSoonPage />, [
-      createRoute('general', 'General Settings', <ComingSoonPage />),
+    createRoute('settings', 'Settings', <SampleParent />, [
+      createRoute('general', 'General Settings', <GeneralSettingsPage />),
       createRoute('account', 'Account Settings', <ComingSoonPage />),
       createRoute('notifications', 'Notification Settings', <ComingSoonPage />),
       createRoute('security', 'Security Settings', <ComingSoonPage />),
@@ -82,10 +84,9 @@ const MainRoutes = {
       createRoute('util-color', 'Color', <UtilsColor />),
       createRoute('util-shadow', 'Shadow', <UtilsShadow />)
     ]),
- 
+
     // Sample Page Routes
     createRoute('sample-page', 'Sample Page', <SamplePage />),
-    createRoute('users/profile', 'User Profile', <UsersListPage />)
   ]
 };
 

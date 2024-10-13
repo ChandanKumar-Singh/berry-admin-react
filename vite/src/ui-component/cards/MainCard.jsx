@@ -7,11 +7,9 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import { padding } from '@mui/system';
 
-// Constants
-const headerSX = {
-  '& .MuiCardHeader-action': { mr: 0 }
-};
+
 
 // ==============================|| CUSTOM MAIN CARD ||============================== //
 
@@ -24,21 +22,34 @@ const MainCard = React.forwardRef(
       content = true,
       contentClass = '',
       contentSX = {},
-      darkTitle = false,
+      darkTitle = true,
       secondary,
       shadow = '0 2px 14px 0 rgba(32, 40, 45, 0.2)',
       sx = {},
       title,
       elevation = 0, // Adds elevation prop for further customization
+      padding = 16,
+      dense = true,
       ...others
     },
     ref
   ) => {
+    // Constants
+    const headerSX = {
+      // '& .MuiCardHeader-action': { mr: 0, mt: 0, mb: 0, ml: 'auto' },
+      padding: `${padding}px`,
+      
+    };
+    // contentSX = {
+    //   padding: `${padding}px`,
+    //   ...contentSX,
+    // }
+
     return (
       <Card
         ref={ref}
         {...others}
-        elevation={elevation} // Apply elevation prop
+        elevation={elevation}
         sx={{
           // margin: 0,
           border: border ? '1px solid' : 'none',
@@ -56,7 +67,7 @@ const MainCard = React.forwardRef(
             sx={headerSX}
             title={
               darkTitle ? (
-                <Typography variant="h3" color="text.primary">
+                <Typography variant="h4" color="text.primary">
                   {title}
                 </Typography>
               ) : (
@@ -69,14 +80,14 @@ const MainCard = React.forwardRef(
 
         {/* Header divider */}
         {title && <Divider sx={{ mb: content ? 0 : 3 }} />}
-        
+
         {/* Content section */}
         {content && (
-          <CardContent sx={contentSX} className={contentClass} >
+          <CardContent sx={contentSX} className={contentClass}  >
             {children}
           </CardContent>
         )}
-        
+
         {/* Render children directly if content is false */}
         {!content && children}
       </Card>

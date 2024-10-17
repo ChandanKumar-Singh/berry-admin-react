@@ -5,7 +5,7 @@
 
 // Primary Color Definitions
 export const primaryMain = "#F06D32"; // Main primary color for buttons and highlights
-export const primaryLight = "#DFF98AFF"; // Light variant of primary color for hover effects
+export const primaryLight = "#ECDFB0FF"; // Light variant of primary color for hover effects
 export const primaryDark = "#C56D32"; // Dark variant for shadows or active states
 
 // Secondary Color Definitions

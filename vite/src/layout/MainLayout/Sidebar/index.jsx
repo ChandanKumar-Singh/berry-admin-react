@@ -17,7 +17,7 @@ import MenuList from './MenuList';
 import LogoSection from '../LogoSection';
 import Chip from 'ui-component/extended/Chip';
 
-import { drawerWidth } from 'store/constant';
+import { drawerWidth, minAppBarHeight } from 'store/constant';
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 
@@ -71,17 +71,26 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
         open={drawerOpen}
         onClose={drawerToggle}
         sx={{
+          /// black border from right side of drawer
+          
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             background: theme.palette.background.default,
             color: theme.palette.text.primary,
-            borderRight: 'none',
+            borderRight: '2px solid rgba(0, 0, 0, 0.12)',
+            borderRightColor: theme.palette.divider,
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
+            borderTopRightRadius: `${theme.shape.borderRadius}`,
+            borderBottomRightRadius: `${theme.shape.borderRadius}`,
             [theme.breakpoints.up('md')]: {
-              top: '88px'
+              top: `${minAppBarHeight*1.1}px`
             }
           }
+
         }}
         ModalProps={{ keepMounted: true }}
+
         color="inherit"
       >
         {drawer}

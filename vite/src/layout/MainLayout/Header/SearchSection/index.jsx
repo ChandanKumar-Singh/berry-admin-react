@@ -59,6 +59,7 @@ const MobileSearch = ({ value, setValue, popupState }) => {
       value={value}
       onChange={(e) => setValue(e.target.value)}
       placeholder="Search"
+      size='small'
       startAdornment={
         <InputAdornment position="start">
           <IconSearch stroke={1.5} size="16px" />

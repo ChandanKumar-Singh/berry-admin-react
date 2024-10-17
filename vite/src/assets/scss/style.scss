@@ -4,6 +4,9 @@
 // third-party
 @import 'react-perfect-scrollbar/dist/css/styles.css';
 
+// tostify styles
+@import 'custom-toast-styles.scss';
+
 // ==============================|| LIGHT BOX ||============================== //
 .fullscreen .react-images__blanket {
   z-index: 1200;
@@ -125,4 +128,10 @@
   75% {
     transform: translateX(10px);
   }
+}
+
+.custom-toast {
+  border-radius: 6px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
 }

@@ -1,3 +1,6 @@
+import { sizing } from "@mui/system";
+import { paddingDefault } from "store/constant";
+
 /**
  * Customizes Material-UI component styles for the application theme.
  * This function returns an object that overrides default styles for various
@@ -13,15 +16,69 @@ export default function componentStyleOverrides(theme) {
     MuiButton: {
       styleOverrides: {
         root: {
-          fontWeight: 500,
-          borderRadius: '4px',
+          fontWeight: 600, // Enhanced font weight for emphasis
+          borderRadius: '30px', // Softer, rounded corners
           textTransform: 'none', // Avoid uppercase text
+          padding: '10px 20px', // Comfortable padding
+          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)', // Add shadow for a raised effect
+          transition: 'all 0.3s ease-in-out', // Smooth transition for interactive states
+
+          // Dynamic background and border based on the button variant and theme mode
+          backgroundColor: theme.colors.primaryMain,
+          color: theme.colors.primaryContrast,
+
+          // Hover effects
           '&:hover': {
-            backgroundColor: theme.colors?.primaryLight, // Change background on hover
+            backgroundColor: theme.colors.primaryDark, // Darken background on hover
+            boxShadow: '0px 6px 25px rgba(0, 0, 0, 0.2)', // Stronger shadow on hover
           },
+
+          // Active state for better user feedback
+          '&:active': {
+            backgroundColor: theme.colors.primaryDark, // Darken background on active state
+            boxShadow: 'none', // Remove shadow on active state
+          },
+
+          // Disabled state for non-interactive buttons
+          '&:disabled': {
+            backgroundColor: theme.colors.grey300, // Adjust background color when disabled
+            color: theme.colors.grey500, // Adjust text color when disabled
+            boxShadow: 'none', // Remove shadow when disabled
+          },
+        },
+
+        // Variant styles (outlined buttons)
+        outlined: {
+          borderColor: theme.colors.primaryMain, // Border color for outlined buttons
+          color: theme.colors.primaryMain, // Text color for outlined buttons
+
+          '&:hover': {
+            borderColor: theme.colors.primaryDark, // Darken border on hover
+            color: theme.colors.primaryDark, // Darken text color on hover
+          }
+        },
+
+        // Size variants (small, medium, large)
+        sizeSmall: {
+          padding: '6px 16px', // Small padding for smaller buttons
+          fontSize: '0.875rem' // Slightly smaller font size
+        },
+        sizeLarge: {
+          padding: '12px 24px', // Larger padding for bigger buttons
+          fontSize: '1.125rem' // Larger font size
+        },
+
+        // Button start and end icons with spacing adjustments
+        startIcon: {
+          marginRight: theme.spacing(1), // Adjust spacing between icon and text
+        },
+        endIcon: {
+          marginLeft: theme.spacing(1), // Adjust spacing for end icons
         },
       },
     },
+
+
     MuiPaper: {
       defaultProps: {
         elevation: 0,
@@ -49,7 +106,7 @@ export default function componentStyleOverrides(theme) {
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: '24px',
+          padding: `${paddingDefault}px`, // Default padding for content
           backgroundColor: bgColor, // Use background color
         },
       },

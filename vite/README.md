@@ -8,9 +8,13 @@ In the project directory, you can run:
 
 ### `Yarn`
 
+
+
 Install packages
 
 ### `Yarn start`
+
+
 
 Runs the app in the development mode.\
 

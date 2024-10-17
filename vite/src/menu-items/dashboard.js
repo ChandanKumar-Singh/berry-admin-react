@@ -49,7 +49,7 @@ const icons = {
 const dashboard = {
   id: 'dashboard',
   title: 'Dashboard',
-  caption: 'Overview of your system’s performance',
+  // caption: 'Overview of your system’s performance',
   type: 'group',
   children: [
     {
@@ -88,7 +88,7 @@ const dashboard = {
 const users = {
   id: 'users',
   title: 'User Management',
-  caption: 'Manage your users, roles, and permissions',
+  // caption: 'Manage your users, roles, and permissions',
   type: 'group',
   children: [
     {
@@ -170,7 +170,7 @@ const users = {
 const settings = {
   id: 'settings',
   title: 'Settings',
-  caption: 'Configure your system preferences',
+  // caption: 'Configure your system preferences',
   type: 'group',
   children: [
     {
@@ -264,7 +264,7 @@ const reports = {
 const support = {
   id: 'support',
   title: 'Support & Help',
-  caption: 'Get help or report an issue',
+  // caption: 'Get help or report an issue',
   type: 'group',
   children: [
     {
